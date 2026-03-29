@@ -2,7 +2,6 @@ package com.example.superheroes.model
 
 import com.example.superheroes.R
 
-
 object HeroesRepository {
     val heroes = listOf(
         Hero(
