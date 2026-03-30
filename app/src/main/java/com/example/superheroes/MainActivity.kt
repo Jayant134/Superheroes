@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.example.superheroes.model.Hero
 import com.example.superheroes.model.HeroesRepository.heroes
 import com.example.superheroes.ui.theme.SuperheroesTheme
+import kotlin.io.encoding.Base64
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,20 +44,16 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SuperheroesTheme {
-                Scaffold( modifier = Modifier.fillMaxSize() ) { innerPadding ->
-                    SuperheroesApp(
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                MainScreen()
             }
         }
     }
 }
 
-@Composable
-fun SuperheroesApp(modifier: Modifier = Modifier){
-    SuperheroList(heroes)
-}
+//@Composable
+//fun SuperheroesApp(modifier: Modifier = Modifier){
+//    SuperheroList(heroes, paddingValues = it)
+//}
 
 @Composable
 fun SuperheroCard(
@@ -100,16 +98,17 @@ fun SuperheroCard(
 @Composable
 fun SuperheroList(
     listOfHeroes: List<Hero>,
+    paddingValues: PaddingValues,
     modifier: Modifier = Modifier
 ){
     LazyColumn (
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        userScrollEnabled = false
+            .padding(top = paddingValues.calculateTopPadding(), start = 16.dp, end = 16.dp),
+        userScrollEnabled = true
     ){
         items(listOfHeroes){
-            superhero -> SuperheroCard(superhero =  superhero)  //named argument
+            superhero -> SuperheroCard(superhero = superhero)  //named argument
         }
     }
 }
@@ -118,7 +117,7 @@ fun SuperheroList(
 @Composable
 fun SuperheroesAppPreview() {
     SuperheroesTheme {
-        SuperheroesApp()
+        MainScreen()
     }
 }
 
@@ -126,6 +125,6 @@ fun SuperheroesAppPreview() {
 @Composable
 fun SuperheroesDarkThemePreview(){
     SuperheroesTheme(darkTheme = true) {
-        SuperheroesApp()
+        MainScreen()
     }
 }
